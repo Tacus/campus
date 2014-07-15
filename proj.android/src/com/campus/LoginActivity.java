@@ -148,8 +148,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 					if (state == 0) {
 						Intent intent = new Intent();
 						intent.setClass(LoginActivity.this, MainActivity.class);
-						LoginActivity.this.startActivity(intent);
+						LoginActivity.this.startActivityForResult(intent,
+								Constant.REQUEST_CODE_REGIST);
 						CommonUtil.showToast(message);
+						LoginActivity.this.finish();
 					} else {
 						CommonUtil.showToast(message);
 					}
@@ -186,5 +188,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 		HttpRequestUtil.loginOrRegistRequest(Constant.ACTION_LOGIN,
 				userNameStr, passwordStr, callback);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == Constant.REQUEST_CODE_REGIST) {// 登录
+			if (resultCode == Constant.RESULT_CODE_REGIST_SUS) {// 登录成功
+				finish();
+			}
+		}
 	}
 }

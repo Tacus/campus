@@ -131,6 +131,8 @@ public class RegistActivity extends Activity implements OnClickListener {
 						intent.setClass(RegistActivity.this, MainActivity.class);
 						RegistActivity.this.startActivity(intent);
 						CommonUtil.showToast(message);
+						RegistActivity.this.finish();
+						setResult(Constant.RESULT_CODE_REGIST_SUS);
 					} else {
 						CommonUtil.showToast(message);
 					}
