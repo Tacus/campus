@@ -42,13 +42,12 @@
                     android:layout_marginLeft="10dp"
                     android:background="@color/login_input_bg"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/figure"
+                    android:drawableStart="@drawable/ic_content_account"
                     android:hint="@string/hint_userName_input"
                     android:imeOptions="actionNext"
                     android:maxLength="64"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textCursorDrawable="@android:color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
 
@@ -64,13 +63,12 @@
                     android:layout_marginLeft="10dp"
                     android:background="@color/login_input_bg"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/lock"
+                    android:drawableStart="@drawable/ic_content_password"
                     android:hint="@string/hint_userPass_input"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
-                    android:textCursorDrawable="@android:color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
         </LinearLayout>
@@ -80,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_login_selector"
-            android:text="@string/btn_login" />
+            android:text="@string/btn_login"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_regist"
@@ -92,7 +91,7 @@
             android:background="@drawable/btn_regist_selector"
             android:padding="5dp"
             android:text="@string/btn_regist"
-            android:textSize="12sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <Button

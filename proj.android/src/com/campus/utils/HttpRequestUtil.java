@@ -26,6 +26,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.campus.LoginActivity;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -247,5 +249,25 @@ public class HttpRequestUtil {
 		}
 		requestUrl = requestUrl.substring(0, requestUrl.length() - 1);
 		return requestUrl;
+	}
+
+	public static void loginOrRegistRequest(String action, String userName,
+			String userPass, HttpCallback callback) {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		String curTime = System.currentTimeMillis() + "";
+		params.add(new BasicNameValuePair("time", curTime));
+		params.add(new BasicNameValuePair("action", action));
+		params.add(new BasicNameValuePair("name", userName));
+		params.add(new BasicNameValuePair("pwd", userPass));
+		params.add(new BasicNameValuePair("ostype", "android"));
+		params.add(new BasicNameValuePair("osvers",
+				android.os.Build.VERSION.RELEASE));
+		params.add(new BasicNameValuePair("client", android.os.Build.MODEL));
+		params.add(new BasicNameValuePair("appvers", CommonUtil
+				.getVersionCode() + ""));
+		params.add(new BasicNameValuePair("sign", MD5Util.generateMd5(
+				(action + userName + curTime + Constant.KEY).getBytes())
+				.toLowerCase()));
+		HttpRequestUtil.httpClientPost(Constant.loginUrl, params, callback);
 	}
 }

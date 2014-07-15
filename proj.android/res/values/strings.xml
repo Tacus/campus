@@ -7,6 +7,8 @@
     <string name="btn_webchat">微信登录</string>
     <string name="btn_login">登录</string>
     <string name="btn_regist">注册新账号</string>
+    <string name="btn_return_login">返回登录</string>
+    <string name="btn_regist_1">注册</string>
     <string name="time_out">请求超时</string>
     <string name="file_not_find">请求地址错误</string>
     <string name="bad_request">请求格式错误</string>

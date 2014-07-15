@@ -16,6 +16,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -27,6 +29,33 @@ public class CommonUtil {
 	private static String gameVersionName = null;
 	private static int gameVersionCode = -1;
 	private static AssetManager assetMng = null;
+	private static Context mContext;
+	public static final int MSG_SHOW_TOAST = 0x001;
+	public static MyHandler handler = null;
+
+	public static void init(Context context) {
+		mContext = context;
+		handler = new MyHandler();
+	}
+
+	static class MyHandler extends Handler {
+
+		public MyHandler() {
+			mContext.getMainLooper();
+		}
+
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case MSG_SHOW_TOAST:
+				String content = (String) msg.obj;
+				Toast.makeText(mContext, content, Toast.LENGTH_SHORT).show();
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
 
 	public String getAssetString(Context context, String fileName) {
 		String content = "";
@@ -170,12 +199,12 @@ public class CommonUtil {
 		return deviceModel;
 	}
 
-	public static String getVersionName(Context context) {
+	public static String getVersionName() {
 		if (null == gameVersionName) {
 			PackageInfo packInfo;
 			try {
-				packInfo = context.getPackageManager().getPackageInfo(
-						context.getPackageName(), 0);
+				packInfo = mContext.getPackageManager().getPackageInfo(
+						mContext.getPackageName(), 0);
 				gameVersionName = packInfo.versionName;
 				gameVersionCode = packInfo.versionCode;
 			} catch (NameNotFoundException e) {
@@ -188,12 +217,12 @@ public class CommonUtil {
 		return gameVersionName;
 	}
 
-	public static int getVersionCode(Context context) {
+	public static int getVersionCode() {
 		if (-1 == gameVersionCode) {
 			PackageInfo packInfo;
 			try {
-				packInfo = context.getPackageManager().getPackageInfo(
-						context.getPackageName(), 0);
+				packInfo = mContext.getPackageManager().getPackageInfo(
+						mContext.getPackageName(), 0);
 				gameVersionName = packInfo.versionName;
 				gameVersionCode = packInfo.versionCode;
 			} catch (NameNotFoundException e) {
@@ -209,5 +238,10 @@ public class CommonUtil {
 		return context.getResources().getString(resId);
 	}
 
-
+	public static void showToast(String content) {
+		Message msg = Message.obtain();
+		msg.what = MSG_SHOW_TOAST;
+		msg.obj = content;
+		handler.sendMessage(msg);
+	}
 }
