@@ -17,5 +17,8 @@
     <string name="file_check_error">文件校验失败</string>
     <string name="check_sys_time">检查系统时间</string>
     <string name="name_pass_not_empty">用户名或密码不能为空~</string>
+    <string name="mine">我</string>
+    <string name="index">首页</string>
+    <string name="category">功能菜单</string>
 
 </resources>

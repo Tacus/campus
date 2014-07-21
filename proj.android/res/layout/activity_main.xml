@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app"
-    android:paddingLeft="35dp"
-    android:paddingRight="35dp" >
+    android:background="@drawable/bg_app" >
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="main view" />
+        android:layout_height="match_parent" >
 
-</RelativeLayout>
+        <RadioGroup
+            android:id="@+id/radios"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_navigation_bg"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_bg_selector"
+                android:button="@null"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/radio_index_bg_selector"
+                android:gravity="center"
+                android:text="@string/index"
+                android:textColor="@drawable/radio_text_selector"
+                android:textSize="13sp" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_bg_selector"
+                android:button="@null"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/radio_index_bg_selector"
+                android:gravity="center"
+                android:text="@string/category"
+                android:textColor="@drawable/radio_text_selector"
+                android:textSize="13sp" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/mine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_bg_selector"
+                android:button="@null"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/radio_index_bg_selector"
+                android:gravity="center"
+                android:text="@string/mine"
+                android:textColor="@drawable/radio_text_selector"
+                android:textSize="13sp" >
+            </RadioButton>
+        </RadioGroup>
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+        </TabWidget>
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/radios" >
+        </FrameLayout>
+    </RelativeLayout>
+
+</TabHost>
