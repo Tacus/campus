@@ -20,5 +20,9 @@
     <string name="mine">我</string>
     <string name="index">首页</string>
     <string name="category">功能菜单</string>
+    <string name="text_sort">排序</string>
+    <string name="text_sort_by_price">价格</string>
+    <string name="text_sort_by_popularity">人气</string>
+    <string name="text_sort_by_latest">最新</string>
 
 </resources>

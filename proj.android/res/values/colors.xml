@@ -2,5 +2,7 @@
 <resources>
 
     <color name="login_input_bg">#00000000</color>
-	
+    <color name="text_sort">#ff625548</color>
+    <color name="bg_text_sort">#ffFF8C00</color>
+
 </resources>

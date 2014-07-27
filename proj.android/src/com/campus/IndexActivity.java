@@ -61,8 +61,9 @@ public class IndexActivity extends Activity {
 			ImageView imageView;
 			if (convertView == null) {
 				imageView = new ImageView(mContext);
-				imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-				// imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				// imageView.setLayoutParams(new GridView.LayoutParams(200,
+				// 200));
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				imageView.setAdjustViewBounds(true);
 				imageView.setPadding(8, 8, 8, 8);
 			} else {
@@ -74,7 +75,7 @@ public class IndexActivity extends Activity {
 
 		private int[] categories = new int[] { R.drawable.category_daily,
 				R.drawable.category_book, R.drawable.category_electric,
-				R.drawable.category_more };
+				R.drawable.category_more, R.drawable.category_more };
 
 	}
 }
