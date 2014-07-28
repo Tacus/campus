@@ -30,12 +30,15 @@ public class CommonUtil {
 	private static int gameVersionCode = -1;
 	private static AssetManager assetMng = null;
 	private static Context mContext;
-	public static final int MSG_SHOW_TOAST = 0x001;
-	public static MyHandler handler = null;
+	private static final int MSG_SHOW_TOAST = 0x001;
+	private static MyHandler handler = null;
+	private static SharedPreferences spf = null;
+	private static final String spfName = "spf_file";
 
 	public static void init(Context context) {
 		mContext = context;
 		handler = new MyHandler();
+		spf = mContext.getSharedPreferences(spfName, Context.MODE_PRIVATE);
 	}
 
 	static class MyHandler extends Handler {
@@ -244,4 +247,14 @@ public class CommonUtil {
 		msg.obj = content;
 		handler.sendMessage(msg);
 	}
+
+	public static void putSpfString(String name, String value) {
+		spf.edit().putString(name, value).apply();
+	}
+
+	public static String getSpfString(String name) {
+		// TODO Auto-generated method stub
+		return spf.getString("accountid", "");
+	}
+
 }

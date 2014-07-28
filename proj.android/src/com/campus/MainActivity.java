@@ -1,5 +1,7 @@
 package com.campus;
 
+import com.campus.utils.CommonUtil;
+
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -27,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		CommonUtil.init(this.getApplicationContext());
 		radioListenner = new RadioCheckedListener();
 		initActionBar();
 		initTabsAndContent(savedInstanceState);

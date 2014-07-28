@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp" >
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical" >
 
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"
         android:columnWidth="55dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
@@ -63,22 +64,36 @@
         </TextView>
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/curSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_sort_by_price"
+        android:textColor="@color/text_sort" />
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_marginTop="7dp"
+        android:background="@drawable/bg_line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.campus.widgets.AutoLoadListView
+            android:id="@+id/autoListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+        </com.campus.widgets.AutoLoadListView>
 
         <TextView
-            android:id="@+id/curSort"
+            android:id="@+id/text_empty_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_sort_by_price" />
-        
-        <ImageView 
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            
-            />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:text="@string/text_empty_data" />
+    </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>

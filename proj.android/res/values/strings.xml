@@ -24,5 +24,6 @@
     <string name="text_sort_by_price">价格</string>
     <string name="text_sort_by_popularity">人气</string>
     <string name="text_sort_by_latest">最新</string>
+    <string name="text_empty_data">还没有交易数据~</string>
 
 </resources>

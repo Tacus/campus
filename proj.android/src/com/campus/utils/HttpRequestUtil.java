@@ -268,6 +268,6 @@ public class HttpRequestUtil {
 		params.add(new BasicNameValuePair("sign", MD5Util.generateMd5(
 				(action + userName + curTime + Constant.KEY).getBytes())
 				.toLowerCase()));
-		HttpRequestUtil.httpClientPost(Constant.loginUrl, params, callback);
+		HttpRequestUtil.httpClientPost(Constant.baseUrl, params, callback);
 	}
 }
