@@ -1,5 +1,6 @@
 package com.campus;
 
+import com.campus.index.IndexActivity;
 import com.campus.utils.CommonUtil;
 
 import android.app.LocalActivityManager;

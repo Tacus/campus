@@ -1,4 +1,4 @@
-package com.campus;
+package com.campus.index;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +27,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.campus.R;
+import com.campus.R.drawable;
+import com.campus.R.id;
+import com.campus.R.layout;
 import com.campus.domain.GoodItem;
 import com.campus.domain.TradeInfo;
 import com.campus.utils.CommonUtil;
@@ -288,73 +292,6 @@ public class IndexActivity extends Activity {
 			this.setLoading(true);
 		}
 	};
-
-	class MyAdapter extends BaseAdapter {
-
-		private List<TradeInfo> tradeInfos;
-
-		public void setTradeInfos(List<TradeInfo> tradeInfos) {
-			this.tradeInfos = tradeInfos;
-		}
-
-		public List<TradeInfo> getTradeInfos() {
-			return tradeInfos;
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			int count = 0;
-			if (tradeInfos != null)
-				count = tradeInfos.size();
-			return count;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return tradeInfos.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			ViewHolder holder;
-			TradeInfo tradeInfo = tradeInfos.get(position);
-			if (convertView == null) {
-				holder = new ViewHolder();
-				convertView = layoutInflate.inflate(R.layout.view_list_item,
-						null);
-				holder.publishDate = (TextView) convertView
-						.findViewById(R.id.publishdate);
-				holder.newreate = (TextView) convertView
-						.findViewById(R.id.newrate);
-				holder.place = (TextView) convertView
-						.findViewById(R.id.tradeplace);
-				holder.price = (TextView) convertView.findViewById(R.id.price);
-				holder.title = (TextView) convertView.findViewById(R.id.title);
-				holder.goodsImage = (ImageView) convertView
-						.findViewById(R.id.goodsImage);
-				convertView.setTag(holder);
-
-			} else
-				holder = (ViewHolder) convertView.getTag();
-
-			// holder.goodsImage.setImageResource(R.drawable.default_goodsimage);
-			holder.newreate.setText(tradeInfo.getNewRate());
-			holder.place.setText(tradeInfo.getTradePlace());
-			holder.price.setText(tradeInfo.getPrice() + "元");
-			holder.publishDate.setText(tradeInfo.getPublishDate());
-			holder.title.setText(tradeInfo.getTitle());
-			return convertView;
-		}
-	}
 
 	class MyGridViewAdapter extends BaseAdapter {
 
