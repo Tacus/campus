@@ -17,8 +17,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -45,9 +48,9 @@ public class IndexActivity extends Activity {
 	private int curPageIndex = -1;
 	private static int pageSize = 15;
 	private TextView textEmptyData;
-	private List<TradeInfo> tradeInfos;
 	private View footView;
 	private int curState = -1;
+	private LayoutInflater layoutInflate;
 
 	private static final int STATE_EMPTY = 1;
 	private static final int STATE_REQUEST_FAILED = 2;
@@ -58,14 +61,16 @@ public class IndexActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_index);
+		System.out.println("currentThreadId:"
+				+ Thread.currentThread().getName());
 		curPageIndex = 1;
-		tradeInfos = new ArrayList<TradeInfo>();
 		initView();
 		requestGoodList();
 	}
 
 	private void initView() {
 
+		layoutInflate = LayoutInflater.from(this);
 		textEmptyData = (TextView) findViewById(R.id.text_empty_data);
 		textEmptyData.setVisibility(View.GONE);
 
@@ -83,6 +88,16 @@ public class IndexActivity extends Activity {
 		adapter = new MyAdapter();
 		autoLoadView.setAdapter(adapter);
 		autoLoadView.setAutoLoadListenner(listenner);
+		listenner.setLoading(true);
+		autoLoadView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 	}
 
@@ -91,7 +106,7 @@ public class IndexActivity extends Activity {
 		params.add(new BasicNameValuePair("action", Constant.ACTION_GET_GOODS));
 		params.add(new BasicNameValuePair("time", System.currentTimeMillis()
 				+ ""));
-		params.add(new BasicNameValuePair("category", curSort.getTag() + ""));
+		params.add(new BasicNameValuePair("category", "0"));
 		params.add(new BasicNameValuePair("filter", curSort.getTag() + ""));
 		params.add(new BasicNameValuePair("pageindex", curPageIndex + ""));
 		params.add(new BasicNameValuePair("pagesize", pageSize + ""));
@@ -113,8 +128,9 @@ public class IndexActivity extends Activity {
 								JSONArray jarray = jObject.getJSONArray("data");
 								if (jarray.length() == 0) {
 									curState = STATE_EMPTY;
-									changeFootViewByState();
+									changeFootViewByState(null);
 								} else {
+									List<TradeInfo> tradeInfos = new ArrayList<>();
 									for (int i = 0; i < jarray.length(); ++i) {
 										TradeInfo tradeInfo = new TradeInfo();
 										JSONObject single = jarray
@@ -135,7 +151,7 @@ public class IndexActivity extends Activity {
 												.getString("PublisherName");
 										String tradePlace = single
 												.getString("TradePlace");
-										String imageUrl = single
+										String goodsImage = single
 												.getString("GoodsImage");
 										int praiseCount = single
 												.getInt("PraiseCount");
@@ -144,34 +160,39 @@ public class IndexActivity extends Activity {
 										Calendar cal = Calendar.getInstance();
 										cal.setTimeInMillis(single
 												.getLong("CreateDate"));
-										String createDate = cal.toString();
+										String createDate = cal
+												.get(Calendar.MONTH)
+												+ "月"
+												+ cal.get(Calendar.DAY_OF_MONTH)
+												+ "日";
 										tradeInfo.setId(id);
 										tradeInfo.setName(name);
 										tradeInfo.setTitle(title);
 										tradeInfo.setCategory(category);
 										tradeInfo.setNewRate(newRate);
 										tradeInfo.setPrice((float) price);
-										tradeInfo.setAccountId(publisher);
+										tradeInfo.setPublisher(publisher);
 										tradeInfo.setPublishName(publisherName);
 										tradeInfo.setPraiseCount(praiseCount);
 										tradeInfo.setCommentCount(commentCount);
-										tradeInfo.setImage(imageUrl);
+										tradeInfo.setImage(goodsImage);
 										tradeInfo.setPublishDate(createDate);
 										tradeInfo.setTradePlace(tradePlace);
 										tradeInfos.add(tradeInfo);
-										curState = STATE_REQUEST_SUS;
-										changeFootViewByState();
 									}
-
+									curState = STATE_REQUEST_SUS;
+									changeFootViewByState(tradeInfos);
 								}
 							} else {
 								curState = STATE_REQUEST_FAILED;
-								changeFootViewByState();
+								changeFootViewByState(null);
 							}
 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							curState = STATE_REQUEST_FAILED;
+							changeFootViewByState(null);
 						}
 					}
 
@@ -180,28 +201,55 @@ public class IndexActivity extends Activity {
 						// TODO Auto-generated method stub
 						Log.e(Tag, "requestGoodList list:onFailure:" + msg
 								+ "type:" + type);
+						curState = STATE_REQUEST_FAILED;
+						changeFootViewByState(null);
 					}
 				});
 	}
 
-	protected void changeFootViewByState() {
+	class ViewHolder {
+
+		ImageView goodsImage;
+		TextView title;
+		TextView price;
+		TextView newreate;
+		TextView place;
+		TextView publishDate;
+	}
+
+	protected void changeFootViewByState(final List<TradeInfo> tradeInfos) {
 		// TODO Auto-generated method stub
-		switch (curState) {
-		case STATE_EMPTY:
-			textEmptyData.setText("还没有交易数据~");
-			break;
-		case STATE_REQUEST_FAILED:
-			textEmptyData.setText("查询失败~");
-			break;
-		case STATE_REQUEST_SUS:
-			textEmptyData.setText("");
-			break;
-		default:
-			break;
-		}
-		textEmptyData.setVisibility(View.VISIBLE);
-		autoLoadView.removeFooterView(footView);
-		adapter.notifyDataSetChanged();
+		System.out.println("changeFootViewByState1 currentThreadId:"
+				+ Thread.currentThread().getName());
+		IndexActivity.this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				System.out.println("changeFootViewByState2 currentThreadId:"
+						+ Thread.currentThread().getName());
+				switch (curState) {
+				case STATE_EMPTY:
+					textEmptyData.setText("还没有交易数据~");
+					break;
+				case STATE_REQUEST_FAILED:
+					textEmptyData.setText("查询失败~");
+					break;
+				case STATE_REQUEST_SUS:
+					textEmptyData.setText("");
+					break;
+				default:
+					break;
+				}
+				textEmptyData.setVisibility(View.VISIBLE);
+				autoLoadView.removeFooterView(footView);
+				adapter.getTradeInfos().addAll(tradeInfos);
+				adapter.notifyDataSetChanged();
+				listenner.setLoading(false);
+				if (tradeInfos != null && tradeInfos.size() > 0)
+					curPageIndex++;
+			}
+		});
+
 	}
 
 	private void requestCategoryList() {
@@ -236,16 +284,30 @@ public class IndexActivity extends Activity {
 		public void loadData() {
 			// TODO Auto-generated method stub
 			autoLoadView.addFooterView(footView);
+			requestGoodList();
+			this.setLoading(true);
 		}
 	};
 
 	class MyAdapter extends BaseAdapter {
 
+		private List<TradeInfo> tradeInfos;
+
+		public void setTradeInfos(List<TradeInfo> tradeInfos) {
+			this.tradeInfos = tradeInfos;
+		}
+
+		public List<TradeInfo> getTradeInfos() {
+			return tradeInfos;
+		}
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			System.out.println(tradeInfos.size() + "");
-			return tradeInfos.size();
+			int count = 0;
+			if (tradeInfos != null)
+				count = tradeInfos.size();
+			return count;
 		}
 
 		@Override
@@ -263,13 +325,35 @@ public class IndexActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			TextView textView = new TextView(IndexActivity.this);
-			textView.setText(tradeInfos.get(position).getName());
-			TradeInfo info = tradeInfos.get(position);
-			System.out.println(info.getName());
-			return textView;
-		}
+			ViewHolder holder;
+			TradeInfo tradeInfo = tradeInfos.get(position);
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = layoutInflate.inflate(R.layout.view_list_item,
+						null);
+				holder.publishDate = (TextView) convertView
+						.findViewById(R.id.publishdate);
+				holder.newreate = (TextView) convertView
+						.findViewById(R.id.newrate);
+				holder.place = (TextView) convertView
+						.findViewById(R.id.tradeplace);
+				holder.price = (TextView) convertView.findViewById(R.id.price);
+				holder.title = (TextView) convertView.findViewById(R.id.title);
+				holder.goodsImage = (ImageView) convertView
+						.findViewById(R.id.goodsImage);
+				convertView.setTag(holder);
 
+			} else
+				holder = (ViewHolder) convertView.getTag();
+
+			// holder.goodsImage.setImageResource(R.drawable.default_goodsimage);
+			holder.newreate.setText(tradeInfo.getNewRate());
+			holder.place.setText(tradeInfo.getTradePlace());
+			holder.price.setText(tradeInfo.getPrice() + "元");
+			holder.publishDate.setText(tradeInfo.getPublishDate());
+			holder.title.setText(tradeInfo.getTitle());
+			return convertView;
+		}
 	}
 
 	class MyGridViewAdapter extends BaseAdapter {

@@ -3,10 +3,10 @@ package com.campus.domain;
 import java.util.Date;
 
 public class TradeInfo {
-	private String accountId;
 	private String category;
 	private int commentCount;
 	private String publishDate;
+	private String publisher;
 
 	private String des;
 
@@ -18,15 +18,20 @@ public class TradeInfo {
 
 	private String newRate;
 	private int praiseCount;
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
 	private double price;
 
 	private String publishName;
 	private String title;
 	private String tradePlace;
-
-	public String getAccountId() {
-		return accountId;
-	}
 
 	public String getCategory() {
 		return category;
@@ -74,10 +79,6 @@ public class TradeInfo {
 
 	public String getTradePlace() {
 		return tradePlace;
-	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
 	}
 
 	public void setCategory(String category) {

@@ -8,13 +8,14 @@ public abstract class AutoLoadScrollListener implements OnScrollListener {
 
 	private String Tag = AutoLoadScrollListener.class.getSimpleName();
 	private int lastItemIndex = -1;
+	private boolean isLoading;
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
-		Log.e(Tag, "onScrollStateChange:" + scrollState);
-		Log.e(Tag, "view adapter count:" + view.getAdapter().getCount());
-		if (lastItemIndex == view.getAdapter().getCount() + 1)
+		if (lastItemIndex == view.getAdapter().getCount()
+				&& scrollState == OnScrollListener.SCROLL_STATE_IDLE
+				&& !isLoading)
 			loadData();
 	}
 
@@ -22,11 +23,15 @@ public abstract class AutoLoadScrollListener implements OnScrollListener {
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		// TODO Auto-generated method stub
-		Log.e(Tag, "onScrll--firstviewItem:" + firstVisibleItem
-				+ "visibleItemCount:" + visibleItemCount + "totalItemCount:"
-				+ totalItemCount + "-item totalCount:"
-				+ view.getAdapter().getCount());
 		lastItemIndex = firstVisibleItem + visibleItemCount;
+	}
+
+	public boolean isLoading() {
+		return isLoading;
+	}
+
+	public void setLoading(boolean isLoading) {
+		this.isLoading = isLoading;
 	}
 
 	public abstract void loadData();

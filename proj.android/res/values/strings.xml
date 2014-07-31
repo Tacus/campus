@@ -25,5 +25,10 @@
     <string name="text_sort_by_popularity">人气</string>
     <string name="text_sort_by_latest">最新</string>
     <string name="text_empty_data">还没有交易数据~</string>
+    <string name="text_default_createdate">7月28号</string>
+    <string name="text_default_newrate">9成新</string>
+    <string name="text_default_tradeplace">浦东</string>
+    <string name="text_default_price">1200元</string>
+    <string name="text_default_title">毕业大甩卖</string>
 
 </resources>
