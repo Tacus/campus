@@ -1,5 +1,6 @@
 package com.campus.index;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 
 import com.campus.R;
 import com.campus.domain.TradeInfo;
-import com.campus.index.IndexActivity.ViewHolder;
 
 public class IndexActListViewAdapter extends BaseAdapter {
 
@@ -24,14 +24,17 @@ public class IndexActListViewAdapter extends BaseAdapter {
 	public IndexActListViewAdapter(Context context) {
 		this.mContext = context;
 		layoutInflate = LayoutInflater.from(mContext);
+		tradeInfos = new ArrayList<TradeInfo>();
 	}
 
 	public void setTradeInfos(List<TradeInfo> tradeInfos) {
-		this.tradeInfos = tradeInfos;
+		if (tradeInfos != null && tradeInfos.size() > 0)
+			this.tradeInfos.addAll(tradeInfos);
+
 	}
 
 	public List<TradeInfo> getTradeInfos() {
-		return tradeInfos;
+		return this.tradeInfos;
 	}
 
 	@Override
@@ -83,5 +86,15 @@ public class IndexActListViewAdapter extends BaseAdapter {
 		holder.publishDate.setText(tradeInfo.getPublishDate());
 		holder.title.setText(tradeInfo.getTitle());
 		return convertView;
+	}
+
+	class ViewHolder {
+
+		ImageView goodsImage;
+		TextView title;
+		TextView price;
+		TextView newreate;
+		TextView place;
+		TextView publishDate;
 	}
 }

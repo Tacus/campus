@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:background="@drawable/bg_item"
+    android:background="@drawable/listview_item_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
