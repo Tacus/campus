@@ -1,23 +1,20 @@
 package com.campus;
 
-import com.campus.index.IndexActivity;
-import com.campus.utils.CommonUtil;
-
 import android.app.LocalActivityManager;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.TabHost;
-import android.widget.TabHost.TabContentFactory;
-import android.widget.TextView;
+
+import com.campus.index.IndexActivity;
+import com.campus.utils.CommonUtil;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -39,8 +36,9 @@ public class MainActivity extends ActionBarActivity {
 
 	private void initActionBar() {
 		ActionBar actionbar = getSupportActionBar();
-		actionbar.setDisplayShowHomeEnabled(true);
-		actionbar.setDisplayUseLogoEnabled(true);
+		actionbar.setDisplayShowHomeEnabled(false);
+		actionbar.setDisplayUseLogoEnabled(false);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
 		actionbar.setTitle("首页");
 	}
@@ -68,6 +66,14 @@ public class MainActivity extends ActionBarActivity {
 		RadioButton radioMine = (RadioButton) findViewById(R.id.mine);
 		radioMine.setOnCheckedChangeListener(radioListenner);
 		radioIndex.setChecked(true);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_action, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	class RadioCheckedListener implements OnCheckedChangeListener {

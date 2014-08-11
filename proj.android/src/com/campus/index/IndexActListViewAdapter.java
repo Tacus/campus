@@ -1,5 +1,6 @@
 package com.campus.index;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -23,14 +24,17 @@ public class IndexActListViewAdapter extends BaseAdapter {
 	public IndexActListViewAdapter(Context context) {
 		this.mContext = context;
 		layoutInflate = LayoutInflater.from(mContext);
+		tradeInfos = new ArrayList<TradeInfo>();
 	}
 
 	public void setTradeInfos(List<TradeInfo> tradeInfos) {
-		this.tradeInfos = tradeInfos;
+		if (tradeInfos != null && tradeInfos.size() > 0)
+			this.tradeInfos.addAll(tradeInfos);
+
 	}
 
 	public List<TradeInfo> getTradeInfos() {
-		return tradeInfos;
+		return this.tradeInfos;
 	}
 
 	@Override

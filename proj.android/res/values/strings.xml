@@ -30,5 +30,7 @@
     <string name="text_default_tradeplace">浦东</string>
     <string name="text_default_price">1200元</string>
     <string name="text_default_title">毕业大甩卖</string>
+    <string name="text_loading">正在加载...</string>
+    <string name="action_search">搜索</string>
 
 </resources>

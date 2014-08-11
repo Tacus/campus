@@ -1,10 +1,7 @@
 package com.campus.index;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -28,10 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.campus.R;
-import com.campus.R.drawable;
-import com.campus.R.id;
-import com.campus.R.layout;
-import com.campus.domain.GoodItem;
 import com.campus.domain.TradeInfo;
 import com.campus.utils.CommonUtil;
 import com.campus.utils.Constant;
@@ -99,6 +92,7 @@ public class IndexActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
+				System.out.println("item click" + position);
 
 			}
 		});
@@ -106,10 +100,11 @@ public class IndexActivity extends Activity {
 	}
 
 	private void requestGoodList() {
+		textEmptyData.setVisibility(View.INVISIBLE);
+		long time = System.currentTimeMillis();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("action", Constant.ACTION_GET_GOODS));
-		params.add(new BasicNameValuePair("time", System.currentTimeMillis()
-				+ ""));
+		params.add(new BasicNameValuePair("time", time + ""));
 		params.add(new BasicNameValuePair("category", "0"));
 		params.add(new BasicNameValuePair("filter", curSort.getTag() + ""));
 		params.add(new BasicNameValuePair("pageindex", curPageIndex + ""));
@@ -117,8 +112,8 @@ public class IndexActivity extends Activity {
 		params.add(new BasicNameValuePair(
 				"sign",
 				MD5Util.generateMd5((Constant.ACTION_GET_GOODS
-						+ CommonUtil.getSpfString("accountid")
-						+ System.currentTimeMillis() + Constant.KEY).getBytes())));
+						+ CommonUtil.getSpfString("accountid") + time + Constant.KEY)
+						.getBytes())));
 		HttpRequestUtil.httpClientPost(Constant.baseUrl, params,
 				new HttpCallback() {
 
@@ -237,13 +232,10 @@ public class IndexActivity extends Activity {
 				default:
 					break;
 				}
-				textEmptyData.setVisibility(View.VISIBLE);
+				if (adapter.getTradeInfos().size() == 0)
+					textEmptyData.setVisibility(View.VISIBLE);
 				autoLoadView.removeFooterView(footView);
-				List<TradeInfo> list = adapter.getTradeInfos();
-				if (list != null)
-					list.addAll(tradeInfos);
-				else
-					adapter.setTradeInfos(tradeInfos);
+				adapter.setTradeInfos(tradeInfos);
 				adapter.notifyDataSetChanged();
 				listenner.setLoading(false);
 				if (tradeInfos != null && tradeInfos.size() > 0)
@@ -255,12 +247,12 @@ public class IndexActivity extends Activity {
 
 	private void requestCategoryList() {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		long time = System.currentTimeMillis();
 		params.add(new BasicNameValuePair("action", "6"));
-		params.add(new BasicNameValuePair("time", System.currentTimeMillis()
-				+ ""));
+		params.add(new BasicNameValuePair("time", time + ""));
 		params.add(new BasicNameValuePair("sign", MD5Util.generateMd5(("6"
-				+ CommonUtil.getSpfString("accountid")
-				+ System.currentTimeMillis() + Constant.KEY).getBytes())));
+				+ CommonUtil.getSpfString("accountid") + time + Constant.KEY)
+				.getBytes())));
 		HttpRequestUtil.httpClientPost(Constant.baseUrl, params,
 				new HttpCallback() {
 
