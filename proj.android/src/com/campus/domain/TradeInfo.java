@@ -1,6 +1,7 @@
 package com.campus.domain;
 
-import java.util.Date;
+import java.util.List;
+
 
 public class TradeInfo {
 	private String category;
@@ -12,7 +13,7 @@ public class TradeInfo {
 
 	private int id;
 
-	private String image;
+	private List<String> images;
 
 	private String name;
 
@@ -49,8 +50,8 @@ public class TradeInfo {
 		return id;
 	}
 
-	public String getImage() {
-		return image;
+	public List<String> getImage() {
+		return images;
 	}
 
 	public String getName() {
@@ -105,8 +106,8 @@ public class TradeInfo {
 		this.id = id;
 	}
 
-	public void setImage(String images) {
-		this.image = images;
+	public void setImage(List<String> images) {
+		this.images = images;
 	}
 
 	public void setName(String name) {

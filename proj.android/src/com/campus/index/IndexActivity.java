@@ -46,7 +46,7 @@ public class IndexActivity extends Activity {
 	private GridView gridView;
 	private MyGridViewAdapter gridViewAdapter;
 	private AutoLoadListView autoLoadView;
-	private MyAdapter adapter;
+	private IndexActListViewAdapter adapter;
 	private String Tag = IndexActivity.class.getSimpleName();
 	private TextView curSort;
 	private int curPageIndex = -1;
@@ -89,7 +89,7 @@ public class IndexActivity extends Activity {
 		footView = this.getLayoutInflater().inflate(
 				R.layout.view_autoload_footview, null);
 		autoLoadView.addFooterView(footView);
-		adapter = new MyAdapter();
+		adapter = new IndexActListViewAdapter(this);
 		autoLoadView.setAdapter(adapter);
 		autoLoadView.setAutoLoadListenner(listenner);
 		listenner.setLoading(true);
@@ -134,7 +134,7 @@ public class IndexActivity extends Activity {
 									curState = STATE_EMPTY;
 									changeFootViewByState(null);
 								} else {
-									List<TradeInfo> tradeInfos = new ArrayList<>();
+									List<TradeInfo> tradeInfos = new ArrayList<TradeInfo>();
 									for (int i = 0; i < jarray.length(); ++i) {
 										TradeInfo tradeInfo = new TradeInfo();
 										JSONObject single = jarray
@@ -155,8 +155,11 @@ public class IndexActivity extends Activity {
 												.getString("PublisherName");
 										String tradePlace = single
 												.getString("TradePlace");
-										String goodsImage = single
-												.getString("GoodsImage");
+										JSONArray goodsImages = single
+												.getJSONArray("GoodsImages");	
+										List<String> imgs = new ArrayList<String>();
+										for(int j=0;i<goodsImages.length();i++)
+											imgs.add(goodsImages.getString(j));
 										int praiseCount = single
 												.getInt("PraiseCount");
 										int commentCount = single
@@ -179,7 +182,7 @@ public class IndexActivity extends Activity {
 										tradeInfo.setPublishName(publisherName);
 										tradeInfo.setPraiseCount(praiseCount);
 										tradeInfo.setCommentCount(commentCount);
-										tradeInfo.setImage(goodsImage);
+										tradeInfo.setImage(imgs);
 										tradeInfo.setPublishDate(createDate);
 										tradeInfo.setTradePlace(tradePlace);
 										tradeInfos.add(tradeInfo);
@@ -211,16 +214,6 @@ public class IndexActivity extends Activity {
 				});
 	}
 
-	class ViewHolder {
-
-		ImageView goodsImage;
-		TextView title;
-		TextView price;
-		TextView newreate;
-		TextView place;
-		TextView publishDate;
-	}
-
 	protected void changeFootViewByState(final List<TradeInfo> tradeInfos) {
 		// TODO Auto-generated method stub
 		System.out.println("changeFootViewByState1 currentThreadId:"
@@ -246,7 +239,11 @@ public class IndexActivity extends Activity {
 				}
 				textEmptyData.setVisibility(View.VISIBLE);
 				autoLoadView.removeFooterView(footView);
-				adapter.getTradeInfos().addAll(tradeInfos);
+				List<TradeInfo> list = adapter.getTradeInfos();
+				if (list != null)
+					list.addAll(tradeInfos);
+				else
+					adapter.setTradeInfos(tradeInfos);
 				adapter.notifyDataSetChanged();
 				listenner.setLoading(false);
 				if (tradeInfos != null && tradeInfos.size() > 0)

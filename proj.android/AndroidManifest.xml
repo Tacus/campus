@@ -27,7 +27,7 @@
                 </category>
             </intent-filter>
         </activity>
-        <activity android:name=".IndexActivity" >
+        <activity android:name="com.campus.index.IndexActivity" >
         </activity>
         <activity android:name=".MineActivity" >
         </activity>

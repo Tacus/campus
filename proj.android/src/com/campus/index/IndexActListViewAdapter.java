@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.campus.R;
 import com.campus.domain.TradeInfo;
-import com.campus.index.IndexActivity.ViewHolder;
 
 public class IndexActListViewAdapter extends BaseAdapter {
 
@@ -83,5 +82,15 @@ public class IndexActListViewAdapter extends BaseAdapter {
 		holder.publishDate.setText(tradeInfo.getPublishDate());
 		holder.title.setText(tradeInfo.getTitle());
 		return convertView;
+	}
+
+	class ViewHolder {
+
+		ImageView goodsImage;
+		TextView title;
+		TextView price;
+		TextView newreate;
+		TextView place;
+		TextView publishDate;
 	}
 }
