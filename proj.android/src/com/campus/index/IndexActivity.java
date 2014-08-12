@@ -151,9 +151,10 @@ public class IndexActivity extends Activity {
 										String tradePlace = single
 												.getString("TradePlace");
 										JSONArray goodsImages = single
-												.getJSONArray("GoodsImages");	
+												.getJSONArray("GoodsImages");
 										List<String> imgs = new ArrayList<String>();
-										for(int j=0;i<goodsImages.length();i++)
+										for (int j = 0; i < goodsImages
+												.length(); i++)
 											imgs.add(goodsImages.getString(j));
 										int praiseCount = single
 												.getInt("PraiseCount");
