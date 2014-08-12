@@ -1,17 +1,24 @@
 package com.campus;
 
 import android.app.LocalActivityManager;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.campus.index.IndexActivity;
 import com.campus.utils.CommonUtil;
@@ -21,9 +28,11 @@ public class MainActivity extends ActionBarActivity {
 	private RadioCheckedListener radioListenner;
 	private TabHost tabHost;
 	private String Tag;
+	private static final String[] m = { "上海", "北京", "张江", "马戏城", "黑人牙膏" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -36,11 +45,22 @@ public class MainActivity extends ActionBarActivity {
 
 	private void initActionBar() {
 		ActionBar actionbar = getSupportActionBar();
-		actionbar.setDisplayShowHomeEnabled(false);
-		actionbar.setDisplayUseLogoEnabled(false);
-		actionbar.setDisplayHomeAsUpEnabled(true);
+		// actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setHomeButtonEnabled(true);
+		Spinner spinner = new Spinner(this);
+		ArrayAdapter<String> spAdapter = (new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, m));
+		spinner.setAdapter(spAdapter);
+		spAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+				ActionBar.LayoutParams.WRAP_CONTENT,
+				ActionBar.LayoutParams.WRAP_CONTENT);
+		lp.gravity = Gravity.CENTER_HORIZONTAL;
+		actionbar.setCustomView(spinner, lp);
 		actionbar.setTitle("首页");
+		actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+				ActionBar.DISPLAY_SHOW_CUSTOM);
 	}
 
 	private void initTabsAndContent(Bundle savedInstanceState) {
@@ -73,6 +93,10 @@ public class MainActivity extends ActionBarActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_action, menu);
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search);
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getComponentName()));
 		return super.onCreateOptionsMenu(menu);
 	}
 

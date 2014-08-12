@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.campus.DetailTradeInfoActivity;
 import com.campus.R;
 import com.campus.domain.TradeInfo;
 import com.campus.utils.CommonUtil;
@@ -53,6 +55,8 @@ public class IndexActivity extends Activity {
 	private static final int STATE_REQUEST_FAILED = 2;
 	private static final int STATE_REQUEST_SUS = 3;
 
+	private String TAG = IndexActivity.class.getName();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -63,6 +67,7 @@ public class IndexActivity extends Activity {
 		curPageIndex = 1;
 		initView();
 		requestGoodList();
+		System.out.println("current task Id" + getTaskId());
 	}
 
 	private void initView() {
@@ -93,7 +98,13 @@ public class IndexActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("item click" + position);
-
+				Intent intent = new Intent();
+				intent.setClass(IndexActivity.this,
+						DetailTradeInfoActivity.class);
+				intent.putExtra("detailTradeInfo", (TradeInfo) parent
+						.getAdapter().getItem(position));
+				intent.putExtra("parentName", TAG);
+				IndexActivity.this.startActivity(intent);
 			}
 		});
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical" >
+
+    <Gallery
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/text_default_title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/home_tab_history"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/home_tab_history" />
+
+        <TextView
+            android:id="@+id/createdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/home_tab_history"
+            android:text="@string/text_default_createdate" />
+
+        <ImageView
+            android:id="@+id/home_tab_view"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/createdate"
+            android:src="@drawable/home_tab_history" />
+
+        <TextView
+            android:id="@+id/createdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/text_default_browwe_count" />
+    </RelativeLayout>
+
+    <include
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        layout="@layout/view_devider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/text_default_price" />
+
+        <TextView
+            android:id="@+id/newrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/price"
+            android:layout_below="@id/price"
+            android:layout_marginTop="5dp"
+            android:text="@string/text_default_newrate" />
+
+        <TextView
+            android:id="@+id/productname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/price"
+            android:text="@string/text_default_title" />
+
+        <TextView
+            android:id="@+id/tradeplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/newrate"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/newrate"
+            android:text="@string/text_default_tradeplace" />
+    </RelativeLayout>
+
+    <include
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        layout="@layout/view_devider" />
+
+</LinearLayout>

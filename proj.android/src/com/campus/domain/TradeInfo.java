@@ -1,8 +1,9 @@
 package com.campus.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TradeInfo {
+public class TradeInfo implements Serializable {
 	private String category;
 	private int commentCount;
 	private String publishDate;
