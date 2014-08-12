@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,8 @@ public class IndexActivity extends Activity {
 	private static final int STATE_REQUEST_FAILED = 2;
 	private static final int STATE_REQUEST_SUS = 3;
 
+	private String TAG = IndexActivity.class.getName();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -63,6 +66,7 @@ public class IndexActivity extends Activity {
 		curPageIndex = 1;
 		initView();
 		requestGoodList();
+		System.out.println("current task Id" + getTaskId());
 	}
 
 	private void initView() {
@@ -93,7 +97,13 @@ public class IndexActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("item click" + position);
-
+				Intent intent = new Intent();
+				intent.setClass(IndexActivity.this,
+						DetailTradeInfoActivity.class);
+				intent.putExtra("detailTradeInfo", (TradeInfo) parent
+						.getAdapter().getItem(position));
+				intent.putExtra("parentName", TAG);
+				IndexActivity.this.startActivity(intent);
 			}
 		});
 
@@ -150,12 +160,8 @@ public class IndexActivity extends Activity {
 												.getString("PublisherName");
 										String tradePlace = single
 												.getString("TradePlace");
-										JSONArray goodsImages = single
-												.getJSONArray("GoodsImages");
-										List<String> imgs = new ArrayList<String>();
-										for (int j = 0; i < goodsImages
-												.length(); i++)
-											imgs.add(goodsImages.getString(j));
+										String goodsImage = single
+												.getString("GoodsImage");
 										int praiseCount = single
 												.getInt("PraiseCount");
 										int commentCount = single
@@ -178,7 +184,7 @@ public class IndexActivity extends Activity {
 										tradeInfo.setPublishName(publisherName);
 										tradeInfo.setPraiseCount(praiseCount);
 										tradeInfo.setCommentCount(commentCount);
-										tradeInfo.setImage(imgs);
+										tradeInfo.setImage(goodsImage);
 										tradeInfo.setPublishDate(createDate);
 										tradeInfo.setTradePlace(tradePlace);
 										tradeInfos.add(tradeInfo);

@@ -2,8 +2,10 @@ package com.campus.domain;
 
 import java.util.List;
 
+import java.io.Serializable;
+import java.util.Date;
 
-public class TradeInfo {
+public class TradeInfo implements Serializable {
 	private String category;
 	private int commentCount;
 	private String publishDate;
@@ -13,7 +15,7 @@ public class TradeInfo {
 
 	private int id;
 
-	private List<String> images;
+	private String image;
 
 	private String name;
 
@@ -50,8 +52,8 @@ public class TradeInfo {
 		return id;
 	}
 
-	public List<String> getImage() {
-		return images;
+	public String getImage() {
+		return image;
 	}
 
 	public String getName() {
@@ -106,8 +108,8 @@ public class TradeInfo {
 		this.id = id;
 	}
 
-	public void setImage(List<String> images) {
-		this.images = images;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public void setName(String name) {

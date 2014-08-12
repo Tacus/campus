@@ -1,38 +1,31 @@
 package com.campus;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.campus.utils.CommonUtil;
-import com.campus.utils.Constant;
-import com.campus.utils.HttpCallback;
-import com.campus.utils.HttpRequestUtil;
-import com.campus.utils.MD5Util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.campus.utils.CommonUtil;
+import com.campus.utils.Constant;
+import com.campus.utils.HttpCallback;
+import com.campus.utils.HttpRequestUtil;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
@@ -58,6 +51,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		btn_regist.setOnClickListener(this);
 		btn_login = (Button) findViewById(R.id.btn_login);
 		btn_login.setOnClickListener(this);
+		// actionbar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

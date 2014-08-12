@@ -71,11 +71,9 @@
         android:text="@string/text_sort_by_price"
         android:textColor="@color/text_sort" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <include
         android:layout_marginTop="7dp"
-        android:background="@drawable/bg_line" />
+        layout="@layout/view_devider" />
 
     <FrameLayout
         android:layout_width="match_parent"
