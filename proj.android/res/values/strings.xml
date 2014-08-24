@@ -34,5 +34,9 @@
     <string name="text_loading">正在加载...</string>
     <string name="action_search">搜索</string>
     <string name="text_hint_search">输入要搜索的商品</string>
+    <string name="text_hint_title">标题</string>
+    <string name="text_hint_des">交易描述</string>
+    <string name="text_hint_price">价格</string>
+    <string name="text_add">添加</string>
 
 </resources>

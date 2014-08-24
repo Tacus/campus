@@ -95,10 +95,11 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main_activity_action, menu);
+		inflater.inflate(R.menu.menu_activity_main, menu);
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
-		SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem);
+		SearchView searchView = (SearchView) MenuItemCompat
+				.getActionView(searchItem);
 		searchView.setSearchableInfo(searchManager
 				.getSearchableInfo(getComponentName()));
 		return super.onCreateOptionsMenu(menu);
