@@ -18,6 +18,7 @@
     <string name="check_sys_time">检查系统时间</string>
     <string name="name_pass_not_empty">用户名或密码不能为空~</string>
     <string name="mine">我</string>
+    <string name="text_publish">发布</string>
     <string name="index">首页</string>
     <string name="category">功能菜单</string>
     <string name="text_sort">排序</string>
@@ -38,5 +39,8 @@
     <string name="text_hint_des">交易描述</string>
     <string name="text_hint_price">价格</string>
     <string name="text_add">添加</string>
+    <string name="text_take_photo">拍照</string>
+    <string name="text_select_from_gallery">从相册选择</string>
+    <string name="text_cancel">取消</string>
 
 </resources>

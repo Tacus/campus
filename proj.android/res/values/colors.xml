@@ -4,5 +4,10 @@
     <color name="login_input_bg">#00000000</color>
     <color name="text_sort">#ff625548</color>
     <color name="bg_text_sort">#ffFF8C00</color>
+    <color name="btn_blue_nor">#ff4169E1</color>
+    <color name="btn_blue_sel">#ff2159a1</color>
+    <color name="btn_gray_sel">#ff777777</color>
+    <color name="btn_gray_nor">#ffaaaaaa</color>
+    <color name="translucente">#88000000</color>
 
 </resources>

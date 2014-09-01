@@ -6,12 +6,27 @@
     android:layout_marginRight="5dp"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/lin_photos"
+    <com.campus.CustomHorizontalScrollView
+        android:id="@+id/scroll_photoes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
+        android:background="#ffaaaaaa"
         android:orientation="horizontal" >
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_photoes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/img_addImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/img_add_image_selector"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+    </com.campus.CustomHorizontalScrollView>
 
     <EditText
         android:layout_width="match_parent"
