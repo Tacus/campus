@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucente"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/lin_wraper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" >
+
+        <Button
+            android:id="@+id/btn_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_blue_selector"
+            android:text="@string/text_take_photo"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_select_from_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_blue_selector"
+            android:gravity="center"
+            android:text="@string/text_select_from_gallery"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_gray_selector"
+            android:gravity="center"
+            android:text="@string/text_cancel"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</RelativeLayout>
