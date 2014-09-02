@@ -103,7 +103,6 @@ public class PublishTradeActivity extends ActionBarActivity implements
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
-		Log.e(Tag, "v.id:" + v.getId() + "---" + R.id.lin_wraper);
 		if (event.getAction() == MotionEvent.ACTION_UP
 				&& v.getId() != R.id.lin_wraper)
 			dismissPopView();

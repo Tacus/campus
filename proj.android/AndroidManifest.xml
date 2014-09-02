@@ -43,7 +43,7 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name="com.campus.PublishTradeActivity" >
+        <activity android:name=".PublishTradeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
