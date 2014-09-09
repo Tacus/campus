@@ -1,5 +1,7 @@
 package com.campus.domain;
 
+import java.util.List;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -106,8 +108,8 @@ public class TradeInfo implements Serializable {
 		this.id = id;
 	}
 
-	public void setImage(String images) {
-		this.image = images;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public void setName(String name) {

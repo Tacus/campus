@@ -25,7 +25,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.campus.DetailTradeInfoActivity;
 import com.campus.R;
 import com.campus.domain.TradeInfo;
 import com.campus.utils.CommonUtil;
@@ -140,7 +139,7 @@ public class IndexActivity extends Activity {
 									curState = STATE_EMPTY;
 									changeFootViewByState(null);
 								} else {
-									List<TradeInfo> tradeInfos = new ArrayList<>();
+									List<TradeInfo> tradeInfos = new ArrayList<TradeInfo>();
 									for (int i = 0; i < jarray.length(); ++i) {
 										TradeInfo tradeInfo = new TradeInfo();
 										JSONObject single = jarray
