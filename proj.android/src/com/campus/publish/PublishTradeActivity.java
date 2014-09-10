@@ -19,8 +19,9 @@ import android.widget.PopupWindow;
 
 import com.campus.CustomHorizontalScrollView;
 import com.campus.R;
+import com.campus.widgets.CenterAlignTitleActivity;
 
-public class PublishTradeActivity extends ActionBarActivity implements
+public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		OnClickListener, OnTouchListener {
 
 	private ImageButton imageBtn;
@@ -40,7 +41,7 @@ public class PublishTradeActivity extends ActionBarActivity implements
 
 	private void initActionBar() {
 		// ActionBar actionBar = getSupportActionBar();
-		this.setTitle("发布");
+		this.setTitleText("发布");
 	}
 
 	private void initView() {
@@ -78,10 +79,12 @@ public class PublishTradeActivity extends ActionBarActivity implements
 			dismissPopView();
 			break;
 		case R.id.btn_take_photo:
+			dismissPopView();
 			break;
 		case R.id.btn_select_from_gallery:
 			Intent intent = new Intent(this, SelectFromGalleryActivity.class);
 			this.startActivity(intent);
+			dismissPopView();
 			break;
 		default:
 			break;
