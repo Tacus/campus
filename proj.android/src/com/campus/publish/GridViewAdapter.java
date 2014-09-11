@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +21,27 @@ import android.widget.LinearLayout;
 
 import com.campus.R;
 
-public class GridViewAdapter extends BaseAdapter {
+public class GridViewAdapter extends CursorAdapter {
+
+	public GridViewAdapter(Context context, Cursor c, int flag) {
+		super(context, c, flag);
+		// TODO Auto-generated constructor stub
+	}
 
 	private Context context;
-	private ArrayList<Integer> imgs;
+	private Bitmap mPlaceHolderBitmap;
+	private Cursor cursor;
 
-	public GridViewAdapter(Context context) {
-		this.context = context;
-	}
-
-	public void setImgs(ArrayList<Integer> imgs) {
-		this.imgs = imgs;
-	}
+	// public GridViewAdapter(Context context) {
+	// this.context = context;
+	// mPlaceHolderBitmap = BitmapFactory.decodeResource(
+	// context.getResources(), R.id.icon);
+	// }
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return cursor.getCount();
 	}
 
 	@Override
@@ -94,25 +100,6 @@ public class GridViewAdapter extends BaseAdapter {
 		public BitmapWorkerTask getBitmapWorkerTask() {
 			return bitmapWorkerTaskReference.get();
 		}
-
-		public static boolean cancelPotentialWork(int data, ImageView imageView) {
-			final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-
-			if (bitmapWorkerTask != null) {
-				final int bitmapData = bitmapWorkerTask.data;
-				// If bitmapData is not yet set or it differs from the new data
-				if (bitmapData == 0 || bitmapData != data) {
-					// Cancel previous task
-					bitmapWorkerTask.cancel(true);
-				} else {
-					// The same work is already in progress
-					return false;
-				}
-			}
-			// No task associated with the ImageView, or an existing task was
-			// cancelled
-			return true;
-		}
 	}
 
 	public static boolean cancelPotentialWork(int data, ImageView imageView) {
@@ -157,10 +144,11 @@ public class GridViewAdapter extends BaseAdapter {
 
 		// Decode image in background.
 		@Override
-	    protected Bitmap doInBackground(Integer... params) {
-	        data = params[0];
-	        return decodeSampledBitmapFromResource(context.getResources(), data, 100, 100);
-	    }
+		protected Bitmap doInBackground(Integer... params) {
+			data = params[0];
+			return decodeSampledBitmapFromResource(context.getResources(),
+					data, 100, 100);
+		}
 
 		// Once complete, see if ImageView is still around and set bitmap.
 		@Override
@@ -173,47 +161,63 @@ public class GridViewAdapter extends BaseAdapter {
 			}
 		}
 	}
-	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-	        int reqWidth, int reqHeight) {
 
-	    // First decode with inJustDecodeBounds=true to check dimensions
-	    final BitmapFactory.Options options = new BitmapFactory.Options();
-	    options.inJustDecodeBounds = true;
-	    BitmapFactory.decodeResource(res, resId, options);
+	public static Bitmap decodeSampledBitmapFromResource(Resources res,
+			int resId, int reqWidth, int reqHeight) {
 
-	    // Calculate inSampleSize
-	    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		// First decode with inJustDecodeBounds=true to check dimensions
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(res, resId, options);
 
-	    // Decode bitmap with inSampleSize set
-	    options.inJustDecodeBounds = false;
-	    return BitmapFactory.decodeResource(res, resId, options);
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+				reqHeight);
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeResource(res, resId, options);
 	}
-	public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-    // Raw height and width of image
-    final int height = options.outHeight;
-    final int width = options.outWidth;
-    int inSampleSize = 1;
 
-    if (height > reqHeight || width > reqWidth) {
+	public static int calculateInSampleSize(BitmapFactory.Options options,
+			int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
 
-        final int halfHeight = height / 2;
-        final int halfWidth = width / 2;
+		if (height > reqHeight || width > reqWidth) {
 
-        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-        // height and width larger than the requested height and width.
-        while ((halfHeight / inSampleSize) > reqHeight
-                && (halfWidth / inSampleSize) > reqWidth) {
-            inSampleSize *= 2;
-        }
-    }
+			final int halfHeight = height / 2;
+			final int halfWidth = width / 2;
 
-    return inSampleSize;
-}
+			// Calculate the largest inSampleSize value that is a power of 2 and
+			// keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight
+					&& (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
+		}
+
+		return inSampleSize;
+	}
 
 	class ViewHolder {
 		ImageView view;
 		LinearLayout mask;
+	}
+
+	@Override
+	public void bindView(View arg0, Context arg1, Cursor arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,11 @@
 package com.campus.publish;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,16 +13,21 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.campus.R;
 import com.campus.widgets.CenterAlignTitleActivity;
 
 public class SelectFromGalleryActivity extends CenterAlignTitleActivity
-		implements OnClickListener, OnItemClickListener {
+		implements OnClickListener, OnItemClickListener,
+		LoaderCallbacks<Cursor> {
 	private GridView gridView;
 	private Button btnComplete;
 	private GridViewAdapter adapter;
+
+	private static final String[] STORE_IMAGES = {
+			MediaStore.Images.Media.DISPLAY_NAME,
+			MediaStore.Images.Media.LATITUDE,
+			MediaStore.Images.Media.LONGITUDE, MediaStore.Images.Media._ID };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +36,17 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		setContentView(R.layout.activity_publish_select_from_gallery);
 		initView();
 		initActionBar();
+		getPicturesFromGallery();
+		getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	void getPicturesFromGallery() {
+
 	}
 
 	void initView() {
 		gridView = (GridView) findViewById(R.id.gridview);
 		adapter = new GridViewAdapter(this);
-		// adapter
 		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(this);
 		btnComplete = (Button) findViewById(R.id.btn_complete);
@@ -54,7 +69,6 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		case R.id.btn_complete:
 			this.finish();
 			break;
-
 		default:
 			break;
 		}
@@ -64,6 +78,27 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		// TODO Auto-generated method stub
+		CursorLoader cursorLoader = new CursorLoader(this,
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, STORE_IMAGES,
+				null, null, null);
+		return cursorLoader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		// TODO Auto-generated method stub
+		adapter.swapCursor(arg1);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+		adapter.swapCursor(null);
 	}
 }
