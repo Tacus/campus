@@ -36,7 +36,7 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_publish);
 		initActionBar();
-		initView();
+		initView();	
 	}
 
 	private void initActionBar() {

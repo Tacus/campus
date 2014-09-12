@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +26,7 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 	private GridViewAdapter adapter;
 
 	private static final String[] STORE_IMAGES = {
-			MediaStore.Images.Media.DISPLAY_NAME,
-			MediaStore.Images.Media.LATITUDE,
-			MediaStore.Images.Media.LONGITUDE, MediaStore.Images.Media._ID };
+			MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media._ID };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +35,11 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		setContentView(R.layout.activity_publish_select_from_gallery);
 		initView();
 		initActionBar();
-		getPicturesFromGallery();
 		getSupportLoaderManager().initLoader(0, null, this);
-	}
-
-	void getPicturesFromGallery() {
-
 	}
 
 	void initView() {
 		gridView = (GridView) findViewById(R.id.gridview);
-		adapter = new GridViewAdapter(this);
-		gridView.setAdapter(adapter);
-		gridView.setOnItemClickListener(this);
 		btnComplete = (Button) findViewById(R.id.btn_complete);
 		btnComplete.setOnClickListener(this);
 	}
@@ -93,12 +84,19 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		// TODO Auto-generated method stub
-		adapter.swapCursor(arg1);
+		if (adapter == null) {
+			adapter = new GridViewAdapter(this, arg1,
+					CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+			gridView.setAdapter(adapter);
+			gridView.setOnItemClickListener(this);
+			return;
+		}
+		adapter.changeCursor(arg1);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
-		adapter.swapCursor(null);
+		adapter.changeCursor(null);
 	}
 }

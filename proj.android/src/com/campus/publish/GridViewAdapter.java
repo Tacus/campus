@@ -12,79 +12,37 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.campus.R;
 
 public class GridViewAdapter extends CursorAdapter {
 
+	private Bitmap mPlaceHolderBitmap;
+	private Cursor cursor;
+	private String Tag = "GirdViewAdapter";
+
 	public GridViewAdapter(Context context, Cursor c, int flag) {
 		super(context, c, flag);
 		// TODO Auto-generated constructor stub
+		this.mContext = context;
 	}
 
-	private Context context;
-	private Bitmap mPlaceHolderBitmap;
-	private Cursor cursor;
-
-	// public GridViewAdapter(Context context) {
-	// this.context = context;
-	// mPlaceHolderBitmap = BitmapFactory.decodeResource(
-	// context.getResources(), R.id.icon);
-	// }
-
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return cursor.getCount();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		ViewHolder viewHolder;
-		if (convertView == null) {
-			convertView = LayoutInflater.from(context).inflate(
-					R.layout.view_img_select_mask, null);
-			viewHolder = new ViewHolder();
-			viewHolder.mask = (LinearLayout) convertView
-					.findViewById(R.id.lin_mask);
-			viewHolder.view = (ImageView) convertView
-					.findViewById(R.id.imgview);
-			convertView.setTag(viewHolder);
-
-		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
-		loadBitmap(viewHolder.view, imgs.get(position));
-		return null;
-	}
-
-	private void loadBitmap(ImageView imageView, int resId) {
-		if (cancelPotentialWork(resId, imageView)) {
-			final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-			final AsyncDrawable asyncDrawable = new AsyncDrawable(
-					context.getResources(), mPlaceHolderBitmap, task);
-			imageView.setImageDrawable(asyncDrawable);
-			task.execute(resId);
-		}
+	private void loadBitmap(ImageView imageView, Cursor cursor) {
+		// if (cancelPotentialWork(resId, imageView)) {
+		// final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+		// final AsyncDrawable asyncDrawable = new AsyncDrawable(
+		// context.getResources(), mPlaceHolderBitmap, task);
+		// imageView.setImageDrawable(asyncDrawable);
+		// task.execute(resId);
+		// }
 	}
 
 	static class AsyncDrawable extends BitmapDrawable {
@@ -146,7 +104,7 @@ public class GridViewAdapter extends CursorAdapter {
 		@Override
 		protected Bitmap doInBackground(Integer... params) {
 			data = params[0];
-			return decodeSampledBitmapFromResource(context.getResources(),
+			return decodeSampledBitmapFromResource(mContext.getResources(),
 					data, 100, 100);
 		}
 
@@ -205,19 +163,33 @@ public class GridViewAdapter extends CursorAdapter {
 
 	class ViewHolder {
 		ImageView view;
-		LinearLayout mask;
+		RelativeLayout mask;
 	}
 
 	@Override
-	public void bindView(View arg0, Context arg1, Cursor arg2) {
+	public void bindView(View view, Context context, Cursor cursor) {
 		// TODO Auto-generated method stub
+		ViewHolder viewHolder = (ViewHolder) view.getTag();
+
+		for (int i = 0; i < cursor.getColumnCount(); i++) {
+			Log.e(Tag, cursor.getColumnNames()[i]);
+		}
 
 	}
 
 	@Override
 	public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub
+		ViewHolder viewHolder;
+		View convertView = LayoutInflater.from(mContext).inflate(
+				R.layout.view_img_select_mask, arg2);
+		viewHolder = new ViewHolder();
+		viewHolder.mask = (RelativeLayout) convertView
+				.findViewById(R.id.rel_mask);
+		viewHolder.view = (ImageView) convertView.findViewById(R.id.imgview);
+		convertView.setTag(viewHolder);
+		return convertView;
 	}
 
 }
