@@ -1,5 +1,6 @@
-package com.campus;
+package com.campus.publish;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -10,15 +11,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-public class PublishTradeActivity extends ActionBarActivity implements
+import com.campus.CustomHorizontalScrollView;
+import com.campus.R;
+import com.campus.widgets.CenterAlignTitleActivity;
+
+public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		OnClickListener, OnTouchListener {
 
 	private ImageButton imageBtn;
@@ -33,12 +36,12 @@ public class PublishTradeActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_publish);
 		initActionBar();
-		initView();
+		initView();	
 	}
 
 	private void initActionBar() {
 		// ActionBar actionBar = getSupportActionBar();
-		this.setTitle("发布");
+		this.setTitleText("发布");
 	}
 
 	private void initView() {
@@ -76,8 +79,12 @@ public class PublishTradeActivity extends ActionBarActivity implements
 			dismissPopView();
 			break;
 		case R.id.btn_take_photo:
+			dismissPopView();
 			break;
 		case R.id.btn_select_from_gallery:
+			Intent intent = new Intent(this, SelectFromGalleryActivity.class);
+			this.startActivity(intent);
+			dismissPopView();
 			break;
 		default:
 			break;

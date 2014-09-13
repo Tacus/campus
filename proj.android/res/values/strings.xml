@@ -42,5 +42,6 @@
     <string name="text_take_photo">拍照</string>
     <string name="text_select_from_gallery">从相册选择</string>
     <string name="text_cancel">取消</string>
+    <string name="text_complete">完成</string>
 
 </resources>

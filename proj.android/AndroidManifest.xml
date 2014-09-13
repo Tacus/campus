@@ -36,19 +36,21 @@
         </activity>
         <activity android:name=".CategoryActivity" >
         </activity>
-        <activity android:name="com.campus.index.DetailTradeInfoActivity" >
+        <activity android:name=".DetailTradeInfoActivity" >
         </activity>
         <activity android:name=".SearchResultsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".PublishTradeActivity" >
+        <activity android:name="com.campus.publish.PublishTradeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.campus.publish.SelectFromGalleryActivity" >
         </activity>
     </application>
 
