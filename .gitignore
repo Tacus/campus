@@ -1,3 +1,4 @@
 gen
 bin
 .svn
+proj.android/project.properties
