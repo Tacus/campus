@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="defautl_thumbnail_width" type="integer">100</item>
+    <item name="default_thumbnail_height" type="integer">100</item>
+
+</resources>

@@ -10,24 +10,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.campus.R;
+import com.campus.utils.CommonUtil;
 
 public class GridViewAdapter extends CursorAdapter {
 
 	private Bitmap mPlaceHolderBitmap;
-	private Cursor cursor;
 	private String Tag = "GirdViewAdapter";
+	private ArrayList<String> selectedIds;
 
 	public GridViewAdapter(Context context, Cursor c, int flag) {
 		super(context, c, flag);
@@ -35,14 +36,30 @@ public class GridViewAdapter extends CursorAdapter {
 		this.mContext = context;
 	}
 
-	private void loadBitmap(ImageView imageView, Cursor cursor) {
-		// if (cancelPotentialWork(resId, imageView)) {
-		// final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-		// final AsyncDrawable asyncDrawable = new AsyncDrawable(
-		// context.getResources(), mPlaceHolderBitmap, task);
-		// imageView.setImageDrawable(asyncDrawable);
-		// task.execute(resId);
-		// }
+	public void setSelectedIds(ArrayList<String> seletedIds) {
+		this.selectedIds = seletedIds;
+	}
+
+	private void loadBitmap(ImageView imageView, String filePath) {
+		loadBitmap(
+				imageView,
+				filePath,
+				mContext.getResources().getInteger(
+						R.integer.defautl_thumbnail_width),
+				mContext.getResources().getInteger(
+						R.integer.default_thumbnail_height));
+	}
+
+	private void loadBitmap(ImageView imageView, String filePath, int width,
+			int height) {
+		if (cancelPotentialWork(filePath, imageView)) {
+			final BitmapWorkerTask task = new BitmapWorkerTask(imageView,
+					width, height);
+			final AsyncDrawable asyncDrawable = new AsyncDrawable(
+					mContext.getResources(), mPlaceHolderBitmap, task);
+			imageView.setImageDrawable(asyncDrawable);
+			task.execute(filePath);
+		}
 	}
 
 	static class AsyncDrawable extends BitmapDrawable {
@@ -60,13 +77,13 @@ public class GridViewAdapter extends CursorAdapter {
 		}
 	}
 
-	public static boolean cancelPotentialWork(int data, ImageView imageView) {
+	public static boolean cancelPotentialWork(String data, ImageView imageView) {
 		final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
 
 		if (bitmapWorkerTask != null) {
-			final int bitmapData = bitmapWorkerTask.data;
+			final String bitmapData = bitmapWorkerTask.data;
 			// If bitmapData is not yet set or it differs from the new data
-			if (bitmapData == 0 || bitmapData != data) {
+			if (TextUtils.isEmpty(bitmapData) || !bitmapData.equals(data)) {
 				// Cancel previous task
 				bitmapWorkerTask.cancel(true);
 			} else {
@@ -90,22 +107,26 @@ public class GridViewAdapter extends CursorAdapter {
 		return null;
 	}
 
-	class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
+	class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		private final WeakReference<ImageView> imageViewReference;
-		private int data = 0;
+		private String data = "";
+		private int mWidth;
+		private int mHeight;
 
-		public BitmapWorkerTask(ImageView imageView) {
+		public BitmapWorkerTask(ImageView imageView, int width, int height) {
 			// Use a WeakReference to ensure the ImageView can be garbage
 			// collected
 			imageViewReference = new WeakReference<ImageView>(imageView);
+			this.mWidth = width;
+			this.mHeight = height;
 		}
 
 		// Decode image in background.
 		@Override
-		protected Bitmap doInBackground(Integer... params) {
+		protected Bitmap doInBackground(String... params) {
 			data = params[0];
 			return decodeSampledBitmapFromResource(mContext.getResources(),
-					data, 100, 100);
+					data, mWidth, mHeight);
 		}
 
 		// Once complete, see if ImageView is still around and set bitmap.
@@ -121,12 +142,12 @@ public class GridViewAdapter extends CursorAdapter {
 	}
 
 	public static Bitmap decodeSampledBitmapFromResource(Resources res,
-			int resId, int reqWidth, int reqHeight) {
+			String filePath, int reqWidth, int reqHeight) {
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(res, resId, options);
+		BitmapFactory.decodeFile(filePath, options);
 
 		// Calculate inSampleSize
 		options.inSampleSize = calculateInSampleSize(options, reqWidth,
@@ -134,7 +155,7 @@ public class GridViewAdapter extends CursorAdapter {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeResource(res, resId, options);
+		return BitmapFactory.decodeFile(filePath, options);
 	}
 
 	public static int calculateInSampleSize(BitmapFactory.Options options,
@@ -161,20 +182,28 @@ public class GridViewAdapter extends CursorAdapter {
 		return inSampleSize;
 	}
 
-	class ViewHolder {
-		ImageView view;
-		RelativeLayout mask;
-	}
-
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder = (ViewHolder) view.getTag();
-
-		for (int i = 0; i < cursor.getColumnCount(); i++) {
-			Log.e(Tag, cursor.getColumnNames()[i]);
+		String filePath = cursor.getString(cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+		if (view.getWidth() == 0) {
+			int width = (CommonUtil.getScreenSize().x - 20 * 2 - 4 * 5) / 3;
+			viewHolder.view.setLayoutParams(new FrameLayout.LayoutParams(width,
+					width));
+			viewHolder.mask.setLayoutParams(new FrameLayout.LayoutParams(width,
+					width));
 		}
+		String str_id = String.valueOf(cursor.getInt(cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media._ID)));
+		if (selectedIds != null && selectedIds.contains(str_id)) {
 
+			viewHolder.mask.setVisibility(View.VISIBLE);
+		} else
+			viewHolder.mask.setVisibility(View.INVISIBLE);
+
+		loadBitmap(viewHolder.view, filePath);
 	}
 
 	@Override
@@ -183,13 +212,16 @@ public class GridViewAdapter extends CursorAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		View convertView = LayoutInflater.from(mContext).inflate(
-				R.layout.view_img_select_mask, arg2);
+				R.layout.view_img_select_mask, null);
 		viewHolder = new ViewHolder();
-		viewHolder.mask = (RelativeLayout) convertView
-				.findViewById(R.id.rel_mask);
 		viewHolder.view = (ImageView) convertView.findViewById(R.id.imgview);
+		viewHolder.mask = (ImageView) convertView.findViewById(R.id.img_mask);
 		convertView.setTag(viewHolder);
 		return convertView;
 	}
 
+	class ViewHolder {
+		ImageView view;
+		ImageView mask;
+	}
 }

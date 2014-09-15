@@ -8,14 +8,18 @@
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/lin_wraper_btn"
         android:layout_gravity="center"
-        android:horizontalSpacing="5dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" >
     </GridView>
 
     <LinearLayout
+        android:id="@+id/lin_wraper_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -35,7 +39,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
-            android:text="@string/text_complete" />
+            android:text="@string/text_complete"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

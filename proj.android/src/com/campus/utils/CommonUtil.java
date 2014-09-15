@@ -9,11 +9,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
+import android.graphics.Point;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
@@ -21,6 +24,8 @@ import android.os.Message;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class CommonUtil {
@@ -34,6 +39,7 @@ public class CommonUtil {
 	private static MyHandler handler = null;
 	private static SharedPreferences spf = null;
 	private static final String spfName = "spf_file";
+	private static Point mScreenSize = null;
 
 	public static void init(Context context) {
 		mContext = context;
@@ -58,6 +64,23 @@ public class CommonUtil {
 				break;
 			}
 		}
+	}
+
+	@SuppressLint("NewApi")
+	public static Point getScreenSize() {
+		if (mScreenSize != null)
+			return mScreenSize;
+		WindowManager winMng = (WindowManager) mContext
+				.getSystemService(Context.WINDOW_SERVICE);
+		Display disPlay = winMng.getDefaultDisplay();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			mScreenSize = new Point();
+			disPlay.getSize(mScreenSize);
+		} else {
+			mScreenSize = new Point(disPlay.getWidth(), disPlay.getHeight());
+		}
+		return mScreenSize;
 	}
 
 	public String getAssetString(Context context, String fileName) {
@@ -255,6 +278,11 @@ public class CommonUtil {
 	public static String getSpfString(String name) {
 		// TODO Auto-generated method stub
 		return spf.getString("accountid", "");
+	}
+
+	static class Size {
+		float width;
+		float height;
 	}
 
 }

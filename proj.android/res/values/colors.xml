@@ -8,6 +8,6 @@
     <color name="btn_blue_sel">#ff2159a1</color>
     <color name="btn_gray_sel">#ff777777</color>
     <color name="btn_gray_nor">#ffaaaaaa</color>
-    <color name="translucente">#88000000</color>
+    <color name="translucente">#88888888</color>
 
 </resources>

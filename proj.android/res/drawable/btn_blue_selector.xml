@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/btn_blue_sel" android:state_pressed="true"></item>
-    <item android:drawable="@color/btn_blue_nor"></item>
+    <item android:drawable="@drawable/btn_blue_shape_sel" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/btn_blue_shape_nor"></item>
 
 </selector>

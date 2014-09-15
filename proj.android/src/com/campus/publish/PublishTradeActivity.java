@@ -1,9 +1,9 @@
 package com.campus.publish;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,6 +29,8 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 	private LinearLayout linPhotoes;
 	private LinearLayout lin_wraper;
 	private String Tag = "PublishTradeActivity";
+	private int REQUEST_CODE_SELECT_IMG = 1;
+	private ArrayList<String> selectedIds;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_publish);
 		initActionBar();
-		initView();	
+		initView();
 	}
 
 	private void initActionBar() {
@@ -56,7 +58,6 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.img_addImg:
-			Log.e("public", "sdf");
 			View view = LayoutInflater.from(this).inflate(
 					R.layout.popview_img_from_select, null);
 			view.setOnTouchListener(this);
@@ -83,7 +84,9 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 			break;
 		case R.id.btn_select_from_gallery:
 			Intent intent = new Intent(this, SelectFromGalleryActivity.class);
-			this.startActivity(intent);
+			if (selectedIds != null && selectedIds.size() > 0)
+				intent.putExtra("selectedIds", selectedIds);
+			this.startActivityForResult(intent, REQUEST_CODE_SELECT_IMG);
 			dismissPopView();
 			break;
 		default:
@@ -114,5 +117,14 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 				&& v.getId() != R.id.lin_wraper)
 			dismissPopView();
 		return false;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_CODE_SELECT_IMG && resultCode == RESULT_OK) {
+			selectedIds = data.getStringArrayListExtra("selectedIds");
+		}
 	}
 }
