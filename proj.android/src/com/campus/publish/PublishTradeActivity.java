@@ -3,7 +3,10 @@ package com.campus.publish;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,12 +17,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.campus.CustomHorizontalScrollView;
 import com.campus.R;
+import com.campus.utils.BitmapWorkerTask;
+import com.campus.utils.CommonUtil;
 import com.campus.widgets.CenterAlignTitleActivity;
+import com.campus.widgets.CustomHorizontalScrollView;
 
 public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		OnClickListener, OnTouchListener {
@@ -36,6 +43,7 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		CommonUtil.init(this);
 		setContentView(R.layout.activity_publish);
 		initActionBar();
 		initView();
@@ -125,6 +133,29 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CODE_SELECT_IMG && resultCode == RESULT_OK) {
 			selectedIds = data.getStringArrayListExtra("selectedIds");
+			addSelectedImgs();
+		}
+	}
+
+	private void addSelectedImgs() {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		int width = (CommonUtil.getScreenSize().x - 20 * 2 - 4 * 5) / 3;
+		for (int i = 0; i < selectedIds.size(); i++) {
+			System.out.println(selectedIds.get(i));
+			Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon()
+					.appendPath(selectedIds.get(i)).build();
+			ImageView img = new ImageView(this);
+			img.setScaleType(ScaleType.CENTER_CROP);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,
+					width);
+			lp.setMargins(10, 5, 0, 5);
+			Cursor cursor = getContentResolver().query(uri, projection, null,
+					null, null);
+			cursor.moveToFirst();
+			String filePath = cursor.getString(cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+			BitmapWorkerTask.loadBitmap(this, img, filePath);
+			linPhotoes.addView(img, lp);
 		}
 	}
 }

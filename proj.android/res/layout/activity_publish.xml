@@ -1,51 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:orientation="vertical" >
 
-    <com.campus.CustomHorizontalScrollView
-        android:id="@+id/scroll_photoes"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#ffaaaaaa"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:background="#ffcccccc" >
 
-        <LinearLayout
-            android:id="@+id/lin_photoes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <com.campus.widgets.CustomHorizontalScrollView
+            android:id="@+id/scroll_photoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal" >
 
-            <ImageButton
-                android:id="@+id/img_addImg"
+            <LinearLayout
+                android:id="@+id/lin_photoes"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/img_add_image_selector"
-                android:scaleType="centerCrop" />
-        </LinearLayout>
-    </com.campus.CustomHorizontalScrollView>
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/text_hint_title" />
+                <ImageButton
+                    android:id="@+id/img_addImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/img_add_image_selector"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
+        </com.campus.widgets.CustomHorizontalScrollView>
+    </RelativeLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@null"
-        android:hint="@string/text_hint_des"
-        android:maxEms="500" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/text_hint_price" />
-
-</LinearLayout>
+</RelativeLayout>

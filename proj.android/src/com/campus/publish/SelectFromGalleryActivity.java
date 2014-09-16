@@ -44,7 +44,6 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_publish_select_from_gallery);
 		// TODO: initial it in fist activity
-		CommonUtil.init(this);
 		selectedIds = getIntent().getStringArrayListExtra("selectedIds");
 		if (selectedIds == null)
 			selectedIds = new ArrayList<String>();
