@@ -1,9 +1,5 @@
 package com.campus.widgets;
 
-import java.util.ArrayList;
-
-import com.campus.utils.CommonUtil;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -21,9 +17,9 @@ public class CustomHorizontalScrollView extends HorizontalScrollView {
 	private static final int SWIPE_THRESHOLD_VELOCITY = 50;
 
 	private GestureDetector mGestureDetector;
-	private int mActiveFeature = 0;
 	private Context mContext;
-	private int mCurrentIndex = 0;
+	private int viewCounts = -1;
+	private int currentIndex;
 
 	public CustomHorizontalScrollView(Context context) {
 		super(context);
@@ -44,23 +40,43 @@ public class CustomHorizontalScrollView extends HorizontalScrollView {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// If the user swipes
-				ViewGroup lin = (ViewGroup) getChildAt(0);
-				int count = lin.getChildCount();
+				ViewGroup view_wraper = (ViewGroup) getChildAt(0);
+				int count = view_wraper.getChildCount();
+				if (count != viewCounts)
+					viewCounts = count;
 				if (mGestureDetector.onTouchEvent(event)) {
-					System.out.println("1111");
 					return true;
 				} else if (event.getAction() == MotionEvent.ACTION_UP
 						|| event.getAction() == MotionEvent.ACTION_CANCEL) {
-					System.out.println("222");
-					int scrollX = getScrollX();
-					int featureWidth = v.getMeasuredWidth();
-					System.out.println("scrollx:" + featureWidth);
-					mActiveFeature = ((scrollX + (featureWidth / 2)) / featureWidth);
-					int scrollTo = mActiveFeature * featureWidth;
-					smoothScrollTo(scrollTo, 0);
-					return true;
+					if (getScrollX() <= 0) {
+						currentIndex = 0;
+						return true;
+					} else if (getScrollX() + v.getWidth() >= view_wraper
+							.getWidth()) {
+						currentIndex = viewCounts - 1;
+						return true;
+					} else {
+						int position = getScrollX() + v.getMeasuredWidth() / 2;
+						int min = 999;
+						int index = 0;
+						for (int i = 0; i < viewCounts; i++) {
+							View view = view_wraper.getChildAt(i);
+							int x = view.getLeft() + view.getWidth() / 2;
+							System.out.println(x);
+							if (Math.abs(x - position) < min) {
+								min = Math.abs(x - position);
+								index = i;
+							}
+						}
+						View view = view_wraper.getChildAt(index);
+						currentIndex = index;
+						int scrollTo = view.getLeft() + view.getWidth() / 2
+								- v.getMeasuredWidth() / 2;
+						smoothScrollTo(scrollTo, 0);
+						return true;
+					}
+
 				} else {
-					System.out.println("333");
 					return false;
 				}
 			}
@@ -80,24 +96,35 @@ public class CustomHorizontalScrollView extends HorizontalScrollView {
 				float velocityY) {
 			try {
 				// right to left
-				System.out.println("fling:" + (e1.getX() - e2.getX()));
-				if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE
+				ViewGroup view_wraper = (ViewGroup) getChildAt(0);
+				int scrollTo;
+				if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					int featureWidth = getMeasuredWidth();
-					// mActiveFeature = (mActiveFeature < (mItems.size() - 1)) ?
-					// mActiveFeature + 1
-					// : mItems.size() - 1;
-					smoothScrollTo(mActiveFeature * featureWidth, 0);
 
+					if (currentIndex < (viewCounts - 2)) {
+						currentIndex = currentIndex + 1;
+						View view = view_wraper.getChildAt(currentIndex);
+						scrollTo = view.getLeft() + view.getWidth() / 2
+								- getWidth();
+					} else {
+						scrollTo = view_wraper.getWidth() - getWidth();
+					}
+
+					smoothScrollTo(scrollTo, 0);
 					return true;
 				}
 				// left to right
 				else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					int featureWidth = getMeasuredWidth();
-					mActiveFeature = (mActiveFeature > 0) ? mActiveFeature - 1
-							: 0;
-					smoothScrollTo(mActiveFeature * featureWidth, 0);
+					if (currentIndex > 2) {
+						currentIndex = currentIndex - 1;
+						View view = view_wraper.getChildAt(currentIndex);
+						scrollTo = view.getLeft() + view.getWidth() / 2
+								- getWidth();
+					} else {
+						scrollTo = 0;
+					}
+					smoothScrollTo(scrollTo, 0);
 					return true;
 				}
 			} catch (Exception e) {
