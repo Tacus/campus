@@ -132,30 +132,43 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CODE_SELECT_IMG && resultCode == RESULT_OK) {
-			selectedIds = data.getStringArrayListExtra("selectedIds");
-			addSelectedImgs();
+			addSelectedImgs(data.getStringArrayListExtra("selectedIds"));
 		}
 	}
 
-	private void addSelectedImgs() {
+	private void addSelectedImgs(ArrayList<String> array) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		int width = (CommonUtil.getScreenSize().x - 20 * 2 - 4 * 5) / 3;
-		for (int i = 0; i < selectedIds.size(); i++) {
+		Cursor cursor = null;
+		for (int i = 0; i < array.size(); i++) {
 			System.out.println(selectedIds.get(i));
-			Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon()
-					.appendPath(selectedIds.get(i)).build();
-			ImageView img = new ImageView(this);
-			img.setScaleType(ScaleType.CENTER_CROP);
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,
-					width);
-			lp.setMargins(10, 5, 0, 5);
-			Cursor cursor = getContentResolver().query(uri, projection, null,
-					null, null);
-			cursor.moveToFirst();
-			String filePath = cursor.getString(cursor
-					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-			BitmapWorkerTask.loadBitmap(this, img, filePath);
-			linPhotoes.addView(img, lp);
+			String id_0 = selectedIds.get(i);
+			for (int j = 0; j < selectedIds.size(); j++) {
+				String id_1 = selectedIds.get(j);
+				if (id_0.equals(id_1)) {
+					break;
+				} else if (j == selectedIds.size() - 1) {
+					Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+							.buildUpon().appendPath(selectedIds.get(i)).build();
+					ImageView img = new ImageView(this);
+					img.setScaleType(ScaleType.CENTER_CROP);
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+							width, width);
+					lp.setMargins(10, 5, 0, 5);
+					cursor = getContentResolver().query(uri, projection, null,
+							null, null);
+					cursor.moveToFirst();
+					String filePath = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+					BitmapWorkerTask.loadBitmap(this, img, filePath);
+					linPhotoes.addView(img, lp);
+				}
+			}
+
 		}
+		selectedIds = array;
+		if (cursor != null && !cursor.isClosed())
+			cursor.close();
 	}
 }

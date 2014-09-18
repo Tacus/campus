@@ -44,9 +44,7 @@ public class CustomHorizontalScrollView extends HorizontalScrollView {
 				int count = view_wraper.getChildCount();
 				if (count != viewCounts)
 					viewCounts = count;
-				if (mGestureDetector.onTouchEvent(event)) {
-					return true;
-				} else if (event.getAction() == MotionEvent.ACTION_UP
+				 if (event.getAction() == MotionEvent.ACTION_UP
 						|| event.getAction() == MotionEvent.ACTION_CANCEL) {
 					if (getScrollX() <= 0) {
 						currentIndex = 0;
