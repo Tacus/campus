@@ -155,6 +155,7 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 							width, width);
 					lp.setMargins(10, 5, 0, 5);
+					linPhotoes.getchi
 					cursor = getContentResolver().query(uri, projection, null,
 							null, null);
 					cursor.moveToFirst();
