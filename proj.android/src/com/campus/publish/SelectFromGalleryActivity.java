@@ -92,7 +92,7 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			setResult(RESULT_CANCELED);
-			return true;
+			return false;
 		} else
 			return super.onKeyDown(keyCode, event);
 

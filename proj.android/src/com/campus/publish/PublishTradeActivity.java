@@ -59,6 +59,7 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		linPhotoes = (LinearLayout) findViewById(R.id.lin_photoes);
 		imageBtn = (ImageButton) findViewById(R.id.img_addImg);
 		imageBtn.setOnClickListener(this);
+		selectedIds = new ArrayList<String>();
 	}
 
 	@Override
@@ -114,7 +115,6 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 					popWindow.dismiss();
 				}
 			}, 300);
-
 		}
 	}
 
@@ -141,32 +141,49 @@ public class PublishTradeActivity extends CenterAlignTitleActivity implements
 		int width = (CommonUtil.getScreenSize().x - 20 * 2 - 4 * 5) / 3;
 		Cursor cursor = null;
 		for (int i = 0; i < array.size(); i++) {
-			System.out.println(selectedIds.get(i));
-			String id_0 = selectedIds.get(i);
+			boolean has_exsit = false;
+			String id_0 = array.get(i);
 			for (int j = 0; j < selectedIds.size(); j++) {
 				String id_1 = selectedIds.get(j);
 				if (id_0.equals(id_1)) {
+					has_exsit = true;
 					break;
-				} else if (j == selectedIds.size() - 1) {
-					Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-							.buildUpon().appendPath(selectedIds.get(i)).build();
-					ImageView img = new ImageView(this);
-					img.setScaleType(ScaleType.CENTER_CROP);
-					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-							width, width);
-					lp.setMargins(10, 5, 0, 5);
-					linPhotoes.getchi
-					cursor = getContentResolver().query(uri, projection, null,
-							null, null);
-					cursor.moveToFirst();
-					String filePath = cursor
-							.getString(cursor
-									.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-					BitmapWorkerTask.loadBitmap(this, img, filePath);
-					linPhotoes.addView(img, lp);
 				}
 			}
 
+			if (!has_exsit) {
+				Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+						.buildUpon().appendPath(id_0).build();
+				ImageView img = new ImageView(this);
+				img.setScaleType(ScaleType.CENTER_CROP);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						width, width);
+				img.setId(Integer.valueOf(id_0));
+				lp.setMargins(10, 5, 0, 5);
+				cursor = getContentResolver().query(uri, projection, null,
+						null, null);
+				cursor.moveToFirst();
+				String filePath = cursor.getString(cursor
+						.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+				BitmapWorkerTask.loadBitmap(this, img, filePath);
+				linPhotoes.addView(img, lp);
+			}
+		}
+
+		for (int i = 0; i < selectedIds.size(); i++) {
+			String id_0 = selectedIds.get(i);
+			boolean has_exsit = false;
+			for (int j = 0; j < array.size() - 1; j++) {
+				String id_1 = array.get(j);
+				if (id_1.equals(id_0)) {
+					has_exsit = true;
+					break;
+				}
+			}
+			if (!has_exsit) {
+				linPhotoes.removeView(linPhotoes.findViewById(Integer
+						.valueOf(id_0)));
+			}
 		}
 		selectedIds = array;
 		if (cursor != null && !cursor.isClosed())
