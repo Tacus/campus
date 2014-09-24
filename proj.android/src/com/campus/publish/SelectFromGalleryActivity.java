@@ -114,7 +114,7 @@ public class SelectFromGalleryActivity extends CenterAlignTitleActivity
 		if (selectedIds.size() == 0)
 			btnComplete.setText("完成");
 		else
-			btnComplete.setText("完成（" + selectedIds.size() + "）");
+			btnComplete.setText("完成(" + selectedIds.size() + ")");
 
 		if (selectedIds.size() != 0) {
 			adapter.setSelectedIds(selectedIds);
